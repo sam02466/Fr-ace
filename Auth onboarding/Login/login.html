@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../../shared/api.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Play & Earn - Login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #08111a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #ffffff;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Logo Styling */
+    .logo-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .logo-icon {
+      width: 60px;
+      height: 45px;
+      margin-bottom: 8px;
+    }
+
+    .logo-text {
+      font-size: 26px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .logo-text span {
+      color: #f7ca38;
+    }
+
+    /* Main Tabs (Login / Sign Up) */
+    .tabs {
+      display: flex;
+      width: 100%;
+      border-bottom: 1px solid #1a2b3c;
+      margin-bottom: 24px;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding-bottom: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #6a7d93;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab.active {
+      color: #ffffff;
+      border-bottom: 2px solid #ffffff;
+    }
+
+    /* Page Header Title */
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .success-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 24px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Form Elements */
+    .form-group {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .label-text {
+      font-size: 14px;
+      color: #a0aec0;
+    }
+
+    .toggle-btn {
+      font-size: 13px;
+      color: #8da2ba;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .input-box {
+      width: 100%;
+      height: 52px;
+      background-color: #0b1a28;
+      border: 1px solid #24394d;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      transition: border-color 0.2s ease;
+    }
+
+    .input-box:focus-within {
+      border-color: #3b82f6;
+    }
+
+    .input-box input {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ffffff;
+      font-size: 15px;
+    }
+
+    .input-box input::placeholder {
+      color: #4a5d73;
+    }
+
+    .icon {
+      margin-right: 12px;
+      color: #6a7d93;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Country Code Editable Container */
+    .country-code-box {
+      display: flex;
+      align-items: center;
+      padding-right: 10px;
+      margin-right: 10px;
+      border-right: 1px solid #24394d;
+    }
+
+    .country-code-box input {
+      width: 50px;
+      text-align: center;
+      color: #8da2ba;
+      font-size: 15px;
+    }
+
+    /* Helper Classes */
+    .hidden {
+      display: none !important;
+    }
+
+    /* Buttons */
+    .btn-submit {
+      width: 100%;
+      height: 52px;
+      background-color: #f7ca38;
+      color: #08111a;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      margin-bottom: 16px;
+    }
+
+    .action-link {
+      color: #8da2ba;
+      font-size: 14px;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      color: #6a7d93;
+      font-size: 12px;
+      margin-bottom: 24px;
+    }
+
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background-color: #1a2b3c;
+    }
+
+    .divider span {
+      padding: 0 12px;
+    }
+
+    /* Social Buttons */
+    .social-btn {
+      width: 100%;
+      height: 52px;
+      background-color: #0b1a28;
+      border: 1px solid #1a2b3c;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 12px;
+      cursor: pointer;
+      gap: 10px;
+    }
+
+    /* Sub-tabs for Recover Page */
+    .sub-tabs {
+      display: flex;
+      width: 100%;
+      border-bottom: 1px solid #1a2b3c;
+      margin-bottom: 24px;
+    }
+
+    .sub-tab {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding-bottom: 12px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #6a7d93;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+
+    .sub-tab.active {
+      color: #ffffff;
+      border-bottom: 2px solid #ffffff;
+    }
+
+    /* OTP Page Cards */
+    .otp-card {
+      width: 100%;
+      background-color: #0b1a28;
+      border: 1px solid #24394d;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .otp-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .otp-card-desc {
+      font-size: 13px;
+      color: #8da2ba;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .otp-card-desc span {
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    .otp-inputs {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 16px;
+      width: 100%;
+    }
+
+    .otp-field {
+      flex: 1;
+      min-width: 0;
+      height: 48px;
+      background-color: #08111a;
+      border: 1px solid #24394d;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      color: #ffffff;
+      outline: none;
+      padding: 0;
+    }
+
+    .otp-field:focus {
+      border-color: #3b82f6;
+    }
+
+    .resend-text {
+      text-align: center;
+      font-size: 13px;
+      color: #8da2ba;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
+
+    .otp-card-secondary {
+      width: 100%;
+      background-color: #08111a;
+      border: 1px solid #1a2b3c;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      height: 48px;
+      background-color: #112233;
+      color: #ffffff;
+      border: 1px solid #24394d;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Game Logo Header -->
+    <div class="logo-box">
+      <svg class="logo-icon" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M25 10C15 10 5 20 5 35C5 50 15 55 22 55C27 55 30 50 35 45H65C70 45 73 55 78 55C85 55 95 50 95 35C95 20 85 10 75 10H25Z" fill="#B3D934"/>
+        <circle cx="30" cy="30" r="3" fill="#08111a"/>
+        <circle cx="70" cy="25" r="2.5" fill="#08111a"/>
+        <circle cx="75" cy="30" r="2.5" fill="#08111a"/>
+      </svg>
+      <div class="logo-text">Play <span>&</span> Earn</div>
+    </div>
+
+    <!-- ==================== PAGE 1: LOGIN PAGE ==================== -->
+    <div id="loginPage" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+      <div class="tabs">
+        <div class="tab active">Login</div>
+        <div class="tab" onclick="window.location.href='Signup.html'">Sign Up</div>
+      </div>
+
+      <form style="width: 100%; display: flex; flex-direction: column; align-items: center;" onsubmit="handleLoginSubmit(event)">
+        <div class="form-group">
+          <div class="label-row">
+            <span class="label-text" id="loginLabel">Email ID</span>
+            <button type="button" class="toggle-btn" id="loginToggleBtn" onclick="toggleLoginAuthMode()">Use Mobile Number</button>
+          </div>
+
+          <div class="input-box" id="loginEmailContainer">
+            <span class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </span>
+            <input type="email" placeholder="Enter email" id="loginEmailInput">
+          </div>
+
+          <div class="input-box hidden" id="loginMobileContainer">
+            <div class="country-code-box">
+              <input type="text" class="country-code" value="+" maxlength="5" placeholder="+">
+            </div>
+            <input type="tel" placeholder="Enter mobile number" id="loginMobileInput" maxlength="12">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="label-row">
+            <span class="label-text">Password not required</span>
+          </div>
+          <div class="input-box">
+            <input type="password" placeholder="Sign in uses a one-time code" id="passwordInput" disabled>
+            <span class="icon" style="margin-right: 0; cursor: pointer;" onclick="togglePasswordVisibility('passwordInput')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Login</button>
+        <button type="button" class="action-link" onclick="showPage('recoverPage')">Forgot Password?</button>
+      </form>
+
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <button class="social-btn" onclick="handleLoginSubmit(event)">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+        </svg>
+        Continue with Google
+      </button>
+
+      <button class="social-btn" onclick="handleLoginSubmit(event)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.85c.62-.76 1.05-1.81.93-2.85-.9.04-2 .6-2.65 1.36-.58.67-1.09 1.75-.95 2.78 1.01.08 2.05-.53 2.67-1.29z"/>
+        </svg>
+        Continue with Apple
+      </button>
+    </div>
+
+    <!-- ==================== PAGE 2: RECOVER ACCOUNT PAGE ==================== -->
+    <div id="recoverPage" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+      <h2 class="page-title">Recover Account</h2>
+
+      <div class="sub-tabs">
+        <div class="sub-tab active" id="tabEmail" onclick="setRecoverMode('email')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          Email
+        </div>
+        <div class="sub-tab" id="tabPhone" onclick="setRecoverMode('phone')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          Phone Number
+        </div>
+      </div>
+
+      <form style="width: 100%; display: flex; flex-direction: column; align-items: center;" onsubmit="event.preventDefault();">
+        <div class="form-group">
+          <div class="label-row">
+            <span class="label-text" id="recoverLabel">Email ID</span>
+            <button type="button" class="toggle-btn" id="recoverToggleBtn" onclick="toggleRecoverMode()">or switch to Phone</button>
+          </div>
+
+          <div class="input-box" id="recoverEmailContainer">
+            <span class="icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </span>
+            <input type="email" placeholder="[e***@email.com]" id="recoverEmailInput">
+          </div>
+
+          <div class="input-box hidden" id="recoverPhoneContainer">
+            <div class="country-code-box">
+              <input type="text" class="country-code" value="+" maxlength="5" placeholder="+">
+            </div>
+            <input type="tel" placeholder="Enter phone number" id="recoverPhoneInput" maxlength="12">
+          </div>
+        </div>
+
+        <button type="button" class="btn-submit" style="margin-top: 24px;" onclick="authMessage('Password recovery is not implemented by the supplied backend. Use OTP login for now.', true)">Continue</button>
+        <button type="button" class="action-link" onclick="showPage('loginPage')">Back to Login</button>
+      </form>
+    </div>
+
+    <!-- ==================== PAGE 3: VERIFY OTP PAGE ==================== -->
+    <div id="otpPage" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+      <h2 class="page-title">Verify OTP</h2>
+
+      <div class="otp-card">
+        <div class="otp-card-header">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          Verify via Email ID
+        </div>
+        <p class="otp-card-desc">
+          A One-Time Password (OTP) has been sent to your registered email:<br>
+          <span>[e***@email.com]</span>
+        </p>
+
+        <div class="otp-inputs">
+          <input type="text" class="otp-field" maxlength="1" placeholder="•">
+          <input type="text" class="otp-field" maxlength="1" placeholder="•">
+          <input type="text" class="otp-field" maxlength="1" placeholder="•">
+          <input type="text" class="otp-field" maxlength="1" placeholder="•">
+          <input type="text" class="otp-field" maxlength="1" placeholder="•">
+          <input type="text" class="otp-field" maxlength="1" placeholder="•">
+        </div>
+
+        <div class="resend-text">
+          Resend OTP (in <span id="timer">0:45</span>)
+        </div>
+
+        <button type="button" class="btn-submit" style="margin-top: 8px; margin-bottom: 0;" onclick="verifyLoginOtp()">Verify & Continue</button>
+      </div>
+
+      <div class="otp-card-secondary">
+        <div class="otp-card-header" style="color: #8da2ba;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8da2ba" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          Or Verify via Phone Number
+        </div>
+        <p class="otp-card-desc">
+          Alternatively, send OTP to your phone:<br>
+          <span>[+91 8***432]</span>
+        </p>
+        <button type="button" class="btn-secondary">Send OTP via SMS</button>
+      </div>
+
+      <button type="button" class="action-link" style="margin-top: 8px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+        </svg>
+        Contact Support
+      </button>
+    </div>
+
+    <!-- ==================== PAGE 4: RESET PASSWORD PAGE ==================== -->
+    <div id="resetPasswordPage" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+      <div class="success-title">
+        <span>✓</span> Identity Verified Successfully
+      </div>
+
+      <form style="width: 100%; display: flex; flex-direction: column; align-items: center;" onsubmit="handlePasswordUpdate(event)">
+        <div class="form-group">
+          <div class="label-row">
+            <span class="label-text">Set New Password</span>
+          </div>
+          <div class="input-box">
+            <input type="password" placeholder="New Password" id="newPassword">
+            <span class="icon" style="margin-right: 0; cursor: pointer;" onclick="togglePasswordVisibility('newPassword')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-box">
+            <input type="password" placeholder="Confirm New Password" id="confirmPassword">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" style="margin-top: 16px; margin-bottom: 24px;">Update Password</button>
+        <button type="button" class="action-link" onclick="showPage('loginPage')">Back to Login</button>
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+
+    // Backend integration: configure window.API_BASE_URL before this script if needed.
+    const API_BASE_URL = (window.parent?.NAVGTA?.getBase?.() || window.NAVGTA?.getBase?.() || '').replace(/\/$/, '');
+    let pendingIdentifier = '';
+    function authMessage(message, isError = false) {
+      let el = document.getElementById('auth-status-message');
+      if (!el) {
+        el = document.createElement('p');
+        el.id = 'auth-status-message';
+        el.setAttribute('role', 'status');
+        el.style.cssText = 'width:100%;text-align:center;font-size:13px;margin:12px 0;color:#9cb0c4;overflow-wrap:anywhere;';
+        const page = document.querySelector('.container');
+        page.appendChild(el);
+      }
+      el.style.color = isError ? '#ff7373' : '#8be0b0';
+      el.textContent = message;
+    }
+    async function apiRequest(path, body, token) {
+      const api = window.parent?.NAVGTA || window.NAVGTA;
+      if (api?.request && !token) return api.request(path, {method:'POST', body:JSON.stringify(body)});
+      const response = await fetch(API_BASE_URL + path, {method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:JSON.stringify(body)});
+      let data = {}; try { data = await response.json(); } catch {}
+      if (!response.ok || data.success === false) throw new Error(data?.error?.message || data?.message || `Request failed (${response.status})`);
+      return data;
+    }
+    function getLoginIdentifier() {
+      if (isLoginMobile) {
+        const raw = document.getElementById('loginMobileInput').value.trim();
+        const countryCode = document.querySelector('#loginMobileContainer .country-code')?.value.trim() || '';
+        return (countryCode + raw).replace(/\s+/g, '');
+      }
+      return document.getElementById('loginEmailInput').value.trim().toLowerCase();
+    }
+    async function verifyLoginOtp() {
+      const code = Array.from(document.querySelectorAll('#otpPage .otp-field')).map(x => x.value.trim()).join('');
+      if (!pendingIdentifier) return authMessage('Request a verification code first.', true);
+      if (!/^\d{6}$/.test(code)) return authMessage('Enter the complete 6-digit code.', true);
+      try {
+        authMessage('Verifying code…');
+        const data = await apiRequest('/api/auth/otp/verify', {identifier: pendingIdentifier, code});
+        if (window.parent?.NAVGTA) window.parent.NAVGTA.setSession(data); else { localStorage.setItem('navgta_auth_token', data.token); localStorage.setItem('navgta_user', JSON.stringify(data.user || {})); }
+        authMessage('Verified. Signing you in…');
+        if (window.parent && typeof window.parent.completeAuth === 'function') window.parent.completeAuth();
+        else window.location.href = '../../Home/home.html';
+      } catch (e) { authMessage(e.message || 'Verification failed. Please try again.', true); }
+    }
+
+    // Login uses the backend's OTP authentication contract (not password auth).
+    async function handleLoginSubmit(event) {
+      if (event) event.preventDefault();
+      const identifier = getLoginIdentifier();
+      if (!identifier || (isLoginMobile ? identifier.replace(/\D/g, '').length < 7 : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier))) {
+        authMessage(isLoginMobile ? 'Enter a valid mobile number including country code.' : 'Enter a valid email address.', true);
+        return;
+      }
+      try {
+        pendingIdentifier = identifier;
+        authMessage('Requesting verification code…');
+        await apiRequest('/api/auth/otp/send', {identifier});
+        document.querySelector('#otpPage .otp-card-desc span').textContent = identifier;
+        showPage('otpPage');
+        authMessage('Code requested. Enter the 6-digit code sent by your backend.');
+      } catch (e) { authMessage(e.message || 'Could not send verification code.', true); }
+    }
+
+    // Password Update Handler
+    function handlePasswordUpdate(event) {
+      if (event) event.preventDefault();
+      authMessage('Password reset is not supported by the supplied backend. Use OTP login instead.', true);
+    }
+
+  // Navigation Controller
+    function showPage(pageId) {
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('recoverPage').classList.add('hidden');
+      document.getElementById('otpPage').classList.add('hidden');
+      document.getElementById('resetPasswordPage').classList.add('hidden');
+      document.getElementById(pageId).classList.remove('hidden');
+
+      if (pageId === 'otpPage') {
+        startTimer();
+      }
+    }
+
+    // Login Toggle Controller
+    let isLoginMobile = false;
+    function toggleLoginAuthMode() {
+      isLoginMobile = !isLoginMobile;
+      const label = document.getElementById('loginLabel');
+      const btn = document.getElementById('loginToggleBtn');
+      const emailBox = document.getElementById('loginEmailContainer');
+      const mobileBox = document.getElementById('loginMobileContainer');
+
+      if (isLoginMobile) {
+        label.textContent = 'Mobile Number';
+        btn.textContent = 'Use Email ID';
+        emailBox.classList.add('hidden');
+        mobileBox.classList.remove('hidden');
+      } else {
+        label.textContent = 'Email ID';
+        btn.textContent = 'Use Mobile Number';
+        mobileBox.classList.add('hidden');
+        emailBox.classList.remove('hidden');
+      }
+    }
+
+    // Recover Toggle Controller
+    function setRecoverMode(mode) {
+      const emailTab = document.getElementById('tabEmail');
+      const phoneTab = document.getElementById('tabPhone');
+      const label = document.getElementById('recoverLabel');
+      const btn = document.getElementById('recoverToggleBtn');
+      const emailContainer = document.getElementById('recoverEmailContainer');
+      const phoneContainer = document.getElementById('recoverPhoneContainer');
+
+      if (mode === 'phone') {
+        emailTab.classList.remove('active');
+        phoneTab.classList.add('active');
+        label.textContent = 'Phone Number';
+        btn.textContent = 'or switch to Email';
+        emailContainer.classList.add('hidden');
+        phoneContainer.classList.remove('hidden');
+      } else {
+        phoneTab.classList.remove('active');
+        emailTab.classList.add('active');
+        label.textContent = 'Email ID';
+        btn.textContent = 'or switch to Phone';
+        phoneContainer.classList.add('hidden');
+        emailContainer.classList.remove('hidden');
+      }
+    }
+
+    function toggleRecoverMode() {
+      const isEmail = document.getElementById('tabEmail').classList.contains('active');
+      setRecoverMode(isEmail ? 'phone' : 'email');
+    }
+
+    // Password Visibility Switcher
+    function togglePasswordVisibility(inputId) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+      } else {
+        input.type = 'password';
+      }
+    }
+
+    // Simple Countdown Timer for OTP
+    function startTimer() {
+      let seconds = 45;
+      const timerDisplay = document.getElementById('timer');
+      const interval = setInterval(() => {
+        seconds--;
+        timerDisplay.textContent = `0:${seconds < 10 ? '0' : ''}${seconds}`;
+        if (seconds <= 0) {
+          clearInterval(interval);
+          timerDisplay.textContent = '0:00';
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

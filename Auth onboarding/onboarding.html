@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Play & Earn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #05080a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #ffffff;
+    }
+
+    /* Mobile Outer Frame */
+    .screen-container {
+      width: 100%;
+      max-width: 380px;
+      height: 750px;
+      background: #080c0e;
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      user-select: none;
+    }
+
+    /* Slides Container - Stacked Overlay for Fade Transitions */
+    .slider {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* General Slide Base */
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+      z-index: 1;
+    }
+
+    /* Active Slide state for Fade-In */
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      z-index: 2;
+    }
+
+    /* ==========================================
+       SPLASH SCREEN STYLES (Slide 0)
+       ========================================== */
+    .splash-slide {
+      justify-content: center;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .bg-shape-top {
+      position: absolute;
+      top: -10%;
+      right: -30%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0, 150, 100, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
+      border-radius: 50%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .bg-shape-bottom-left {
+      position: absolute;
+      bottom: 15%;
+      left: -40%;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(160, 140, 20, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+      border-radius: 50%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .bg-wave-bottom {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 250px;
+      background: linear-gradient(135deg, rgba(30, 80, 50, 0.6) 0%, rgba(10, 40, 25, 0.9) 100%);
+      border-top-left-radius: 60% 80%;
+      border-top-right-radius: 40% 40%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .splash-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .splash-logo-container {
+      width: 100%;
+      max-width: 240px;
+      height: auto;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .splash-logo-container img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      mix-blend-mode: screen;
+    }
+
+    .splash-title {
+      font-size: 2.3rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 15px;
+    }
+
+    .splash-title .white-text { color: #ffffff; }
+    .splash-title .ampersand { color: #9ab4c7; font-weight: 400; margin: 0 4px; }
+    .splash-title .yellow-text { color: #fbd632; }
+
+    .splash-subtitle {
+      font-size: 0.85rem;
+      color: #b0c0ce;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .splash-subtitle .bullet {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background-color: #fbd632;
+      border-radius: 50%;
+    }
+
+    /* ==========================================
+       ONBOARDING CARDS STYLES (Slides 1, 2, & 3)
+       ========================================== */
+    .onboarding-slide {
+      background: #090e13;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px 24px 30px 24px;
+      text-align: center;
+    }
+
+    .card-image-container {
+      width: 100%;
+      height: 220px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .card-image-container img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .card-text-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: -20px;
+    }
+
+    /* Vibrant Gradient & Styled Titles */
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.35;
+    }
+
+    .highlight-yellow {
+      color: #fbd632;
+    }
+
+    .highlight-gradient {
+      background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .highlight-gold {
+      background: linear-gradient(135deg, #ffe066 0%, #fbd632 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .card-description {
+      font-size: 0.85rem;
+      color: #9cb0c4;
+      font-weight: 400;
+      line-height: 1.6;
+      max-width: 300px;
+    }
+
+    .card-description .text-bold {
+      color: #d8e5f2;
+      font-weight: 600;
+    }
+
+    .card-bottom-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .card-pagination {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .card-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #2a3540;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .card-dot.active {
+      background-color: #fbd632;
+      width: 8px;
+      height: 8px;
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 14px 0;
+      background-color: #fbd632;
+      color: #090e13;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 15px rgba(251, 214, 50, 0.2);
+    }
+
+    .action-btn:active {
+      transform: scale(0.98);
+      background-color: #e5c22b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="screen-container" id="screen-container">
+    <div class="slider" id="slider">
+      
+      <!-- SLIDE 0: SPLASH SCREEN -->
+      <div class="slide splash-slide active" id="slide-0">
+        <div class="bg-shape-top"></div>
+        <div class="bg-shape-bottom-left"></div>
+        <div class="bg-wave-bottom"></div>
+
+        <div class="splash-content">
+          <div class="splash-logo-container">
+            <!-- ADD YOUR GAMEPAD SPLASH IMAGE HERE -->
+            <img src="logo.png" alt="Gamepad Logo" onerror="this.alt='[ Add Splash Gamepad Image ]'; this.style.color='#4a5a6a';">
+          </div>
+
+          <h1 class="splash-title">
+            <span class="white-text">Play</span>
+            <span class="ampersand">&amp;</span>
+            <span class="yellow-text">Earn</span>
+          </h1>
+
+          <div class="splash-subtitle">
+            <span>Play Games</span>
+            <span class="bullet"></span>
+            <span>Win Rewards</span>
+            <span class="bullet"></span>
+            <span>Be the Best</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 1: PLAY YOUR FAVORITE GAMES -->
+      <div class="slide onboarding-slide" id="slide-1">
+        <div class="card-image-container">
+          <!-- ADD YOUR ONBOARDING SLIDE 1 IMAGE HERE -->
+          <img src="slide1.png" alt="Play Your Favorite Games" onerror="this.alt='[ Add Slide 1 Image ]'; this.style.color='#4a5a6a';">
+        </div>
+
+        <div class="card-text-group">
+          <h2 class="card-title">Play Your<br><span class="highlight-yellow">Favorite Games</span></h2>
+          <p class="card-description">From <span class="text-bold">casual games</span> to skill-based challenges, there's something for everyone.</p>
+        </div>
+
+        <div class="card-bottom-section">
+          <div class="card-pagination">
+            <span class="card-dot active" onclick="goToSlide(1)"></span>
+            <span class="card-dot" onclick="goToSlide(2)"></span>
+            <span class="card-dot" onclick="goToSlide(3)"></span>
+          </div>
+          <button class="action-btn" onclick="nextSlide()">Next</button>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: WIN REWARDS -->
+      <div class="slide onboarding-slide" id="slide-2">
+        <div class="card-image-container">
+          <!-- ADD YOUR ONBOARDING SLIDE 2 IMAGE HERE -->
+          <img src="slide2.png" alt="Win Rewards" onerror="this.alt='[ Add Slide 2 Image ]'; this.style.color='#4a5a6a';">
+        </div>
+
+        <div class="card-text-group">
+          <h2 class="card-title"><span class="highlight-gold">Win Rewards</span></h2>
+          <p class="card-description">Complete challenges, climb the leaderboard and earn <span class="text-bold">exciting rewards</span>.</p>
+        </div>
+
+        <div class="card-bottom-section">
+          <div class="card-pagination">
+            <span class="card-dot" onclick="goToSlide(1)"></span>
+            <span class="card-dot active" onclick="goToSlide(2)"></span>
+            <span class="card-dot" onclick="goToSlide(3)"></span>
+          </div>
+          <button class="action-btn" onclick="nextSlide()">Next</button>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: SECURE & FAST -->
+      <div class="slide onboarding-slide" id="slide-3">
+        <div class="card-image-container">
+          <!-- ADD YOUR ONBOARDING SLIDE 3 IMAGE HERE -->
+          <img src="slide3.png" alt="Secure & Fast" onerror="this.alt='[ Add Slide 3 Image ]'; this.style.color='#4a5a6a';">
+        </div>
+
+        <div class="card-text-group">
+          <h2 class="card-title"><span class="highlight-gradient">Secure &amp; Fast</span></h2>
+          <p class="card-description">Safe transactions, <span class="text-bold">quick withdrawals</span> and full transparency.</p>
+        </div>
+
+        <div class="card-bottom-section">
+          <div class="card-pagination">
+            <span class="card-dot" onclick="goToSlide(1)"></span>
+            <span class="card-dot" onclick="goToSlide(2)"></span>
+            <span class="card-dot active" onclick="goToSlide(3)"></span>
+          </div>
+          <button class="action-btn" onclick="handleFinish()">Get Started</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let currentIndex = 0;
+    const totalSlides = 4;
+
+    // Automatic Splash Screen Fade Transition (2.5 seconds)
+    setTimeout(() => {
+      if (currentIndex === 0) {
+        goToSlide(1); // Fade to first onboarding slide
+      }
+    }, 2500);
+
+    function goToSlide(index) {
+      if (index < 0 || index >= totalSlides) return;
+      currentIndex = index;
+      
+      slides.forEach((slide, i) => {
+        if (i === currentIndex) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+    }
+
+    function nextSlide() {
+      if (currentIndex < totalSlides - 1) {
+        goToSlide(currentIndex + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentIndex > 1) { // Prevents returning to the Splash Screen via swipe
+        goToSlide(currentIndex - 1);
+      }
+    }
+
+function handleFinish() {
+  // Navigates into the Login folder and opens login.html
+  window.location.href = 'Login/login.html';
+}
+
+
+    /* Bi-directional Touch & Swipe Handling */
+    const container = document.getElementById('screen-container');
+    let startX = 0;
+    let isDragging = false;
+
+    container.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    });
+
+    container.addEventListener('touchend', (e) => {
+      if (!isDragging || currentIndex === 0) return;
+      const endX = e.changedTouches[0].clientX;
+      const diffX = endX - startX;
+
+      // Swipe Left -> Next Slide
+      if (diffX < -40 && currentIndex < totalSlides - 1) {
+        nextSlide();
+      } 
+      // Swipe Right -> Previous Slide
+      else if (diffX > 40 && currentIndex > 1) {
+        prevSlide();
+      }
+      isDragging = false;
+    });
+  </script>
+</body>
+</html>

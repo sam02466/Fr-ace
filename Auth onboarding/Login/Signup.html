@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../../shared/api.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Play & Earn - Complete Registration</title>
+  <!-- Font Awesome Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #0b1118;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Logo Header */
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 35px;
+    }
+
+    .logo-icon {
+      font-size: 50px;
+      color: #b7e34b;
+      margin-bottom: 5px;
+      text-shadow: 0 0 10px rgba(183, 227, 75, 0.3);
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .logo-text span {
+      color: #e5be38;
+    }
+
+    /* Title & Description */
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .align-left {
+      align-self: flex-start;
+      margin-bottom: 25px;
+      font-size: 26px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #9aa8b6;
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 30px;
+    }
+
+    .subtitle span {
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    /* Form Styles */
+    form {
+      width: 100%;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 18px;
+    }
+
+    .input-group label {
+      font-size: 15px;
+      color: #9aa8b6;
+      margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .input-wrapper i.left-icon {
+      position: absolute;
+      left: 14px;
+      color: #6c7a89;
+      font-size: 18px;
+      z-index: 1;
+    }
+
+    .input-wrapper i.toggle-eye {
+      position: absolute;
+      right: 14px;
+      color: #6c7a89;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      background-color: #2b3038;
+      border: 1px solid #404752;
+      border-radius: 12px;
+      padding: 14px 14px 14px 44px;
+      font-size: 15px;
+      color: #ffffff;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-wrapper input.has-eye {
+      padding-right: 44px;
+    }
+
+    .input-wrapper input::placeholder {
+      color: #6c7a89;
+    }
+
+    .input-wrapper input:focus {
+      border-color: #6c7a89;
+    }
+
+    /* Phone Field Layout */
+    .phone-wrapper {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .country-code-input {
+      width: 65px;
+      flex-shrink: 0;
+      background-color: #2b3038;
+      border: 1px solid #404752;
+      border-radius: 12px;
+      padding: 14px 8px;
+      font-size: 15px;
+      color: #ffffff;
+      text-align: center;
+      outline: none;
+    }
+
+    .phone-number-box {
+      flex: 1;
+    }
+
+    /* Option Link */
+    .option-text {
+      text-align: center;
+      font-size: 14px;
+      color: #9aa8b6;
+      margin-top: -4px;
+      margin-bottom: 22px;
+    }
+
+    .option-text a {
+      color: #8198ab;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* Checkbox Section */
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 1.5px solid #6c7a89;
+      border-radius: 3px;
+      background-color: transparent;
+      cursor: pointer;
+      margin-top: 2px;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .checkbox-group input[type="checkbox"]:checked {
+      background-color: #e5be38;
+      border-color: #e5be38;
+    }
+
+    .checkbox-group input[type="checkbox"]:checked::after {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      font-size: 12px;
+      color: #0b1118;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .checkbox-group label {
+      font-size: 14px;
+      color: #9aa8b6;
+      line-height: 1.4;
+    }
+
+    .checkbox-group label a {
+      color: #8198ab;
+      text-decoration: underline;
+    }
+
+    /* Buttons */
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(90deg, #e7c23a 0%, #dab22e 70%, #b89220 100%);
+      color: #2b3038;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: opacity 0.2s;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.95;
+    }
+
+    /* OTP Code Input Boxes */
+    .otp-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+      margin-bottom: 25px;
+    }
+
+    .otp-input {
+      width: 46px;
+      height: 52px;
+      background-color: #232830;
+      border: 1px solid #3c4450;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: 600;
+      color: #ffffff;
+      text-align: center;
+      outline: none;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .otp-input:focus {
+      border-color: #5c9df5;
+      box-shadow: 0 0 8px rgba(92, 157, 245, 0.5);
+      background-color: #2b323d;
+    }
+
+    .otp-input.error {
+      border-color: #ff4d4d !important;
+      box-shadow: 0 0 8px rgba(255, 77, 77, 0.4) !important;
+    }
+
+    .shake {
+      animation: shake 0.3s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+
+    /* Resend Code Link */
+    .resend-container {
+      text-align: right;
+      width: 100%;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .resend-link {
+      color: #8198ab;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .resend-link.disabled {
+      color: #566573;
+      cursor: not-allowed;
+      text-decoration: underline;
+    }
+
+    /* Footer Text */
+    .footer-text {
+      margin-top: 35px;
+      font-size: 14px;
+      color: #9aa8b6;
+      text-align: center;
+    }
+
+    .footer-text a {
+      color: #8198ab;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* ================= HALF-WINDOW MODAL (BOTTOM SHEET) ================= */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(3px);
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .bottom-sheet {
+      width: 100%;
+      max-width: 360px;
+      background-color: #121824;
+      border: 1.5px solid #e5be38;
+      border-bottom: none;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      padding: 30px 24px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .modal-overlay.active .bottom-sheet {
+      transform: translateY(0);
+    }
+
+    .modal-icon-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #e5be38;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-icon-circle i {
+      font-size: 40px;
+      color: #121824;
+    }
+
+    .modal-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .modal-desc {
+      font-size: 13.5px;
+      color: #9aa8b6;
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 25px;
+      padding: 0 10px;
+    }
+
+    .modal-subtext {
+      font-size: 13px;
+      color: #8198ab;
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    .bottom-sheet.error-mode {
+      border-color: #ff4d4d;
+    }
+
+    .bottom-sheet.error-mode .modal-icon-circle {
+      background-color: #ff4d4d;
+    }
+
+    .bottom-sheet.error-mode .modal-icon-circle i {
+      color: #ffffff;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Common Logo Header -->
+    <div class="logo-container">
+      <i class="fa-solid fa-gamepad logo-icon"></i>
+      <div class="logo-text">Play <span>&amp; Earn</span></div>
+    </div>
+
+    <!-- ================= STEP 1: CREATE ACCOUNT ================= -->
+    <div id="step-signup" style="width: 100%;">
+      <h1 class="title align-left">Create Account</h1>
+
+      <form id="signup-form">
+        <div class="input-group">
+          <label for="fullname">Full Name</label>
+          <div class="input-wrapper">
+            <i class="fa-regular fa-user left-icon"></i>
+            <input type="text" id="fullname" placeholder="Full Name" required />
+          </div>
+        </div>
+
+        <div class="input-group" id="email-field-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrapper">
+            <i class="fa-regular fa-envelope left-icon"></i>
+            <input type="email" id="email" placeholder="j***@example.com" />
+          </div>
+        </div>
+
+        <div class="input-group hidden" id="phone-field-group">
+          <label for="phone">Phone Number</label>
+          <div class="phone-wrapper">
+            <input type="text" id="country-code" class="country-code-input" value="+" maxlength="5" />
+            <div class="input-wrapper phone-number-box">
+              <i class="fa-solid fa-phone left-icon"></i>
+              <input type="tel" id="phone" placeholder="9876543210" />
+            </div>
+          </div>
+        </div>
+
+        <div class="option-text">
+          or <a href="#" id="toggle-input-btn">use Phone Number</a>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="terms" required />
+          <label for="terms">
+            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+          </label>
+        </div>
+
+        <button type="submit" class="btn-submit">Next</button>
+      </form>
+
+      <div class="footer-text">
+        Already have an account? <a href="#">Log In</a>
+      </div>
+    </div>
+
+    <!-- ================= STEP 2: OTP VERIFICATION ================= -->
+    <div id="step-otp" class="hidden" style="width: 100%;">
+      <h1 class="title">Enter Verification Code</h1>
+      <p class="subtitle" id="otp-instruction">
+        Please enter the code we just sent to your <span id="target-display">email j***@example.com</span>.
+      </p>
+
+      <form id="otp-form">
+        <div class="otp-container" id="otp-inputs-wrapper">
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]*" inputmode="numeric" autofocus />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]*" inputmode="numeric" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]*" inputmode="numeric" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]*" inputmode="numeric" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]*" inputmode="numeric" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]*" inputmode="numeric" />
+        </div>
+
+        <div class="resend-container">
+          <a id="resend-btn" class="resend-link disabled">Request Again (in 0:<span id="timer">45</span>)</a>
+        </div>
+
+        <button type="submit" class="btn-submit">Confirm Code</button>
+      </form>
+
+      <div class="footer-text">
+        Already have an account? <a href="#">Log In</a>
+      </div>
+    </div>
+
+    <!-- ================= STEP 3: COMPLETE YOUR PROFILE ================= -->
+    <div id="step-profile" class="hidden" style="width: 100%;">
+      <h1 class="title align-left">Complete Your Profile</h1>
+
+      <form id="profile-form">
+        <!-- Age / DOB -->
+        <div class="input-group">
+          <label for="dob">Age / DOB</label>
+          <div class="input-wrapper">
+            <i class="fa-regular fa-calendar-days left-icon"></i>
+            <input type="text" id="dob" placeholder="Age or Select DOB" required />
+          </div>
+        </div>
+
+        <!-- Country / Address -->
+        <div class="input-group">
+          <label for="address">Country / Address</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-location-dot left-icon"></i>
+            <input type="text" id="address" placeholder="Enter Country and Address" required />
+          </div>
+        </div>
+
+        <!-- Set New Password -->
+        <div class="input-group">
+          <label for="new-password">Set New Password</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-lock left-icon"></i>
+            <input type="password" id="new-password" class="has-eye" placeholder="Enter new password" required />
+            <i class="fa-regular fa-eye-slash toggle-eye" data-target="new-password"></i>
+          </div>
+        </div>
+
+        <!-- Confirm New Password -->
+        <div class="input-group">
+          <label for="confirm-password">Confirm New Password</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-lock left-icon"></i>
+            <input type="password" id="confirm-password" class="has-eye" placeholder="Confirm new password" required />
+            <i class="fa-regular fa-eye-slash toggle-eye" data-target="confirm-password"></i>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" style="margin-top: 10px;">Complete Profile</button>
+      </form>
+
+      <div class="footer-text">
+        <a id="cancel-back-btn">Cancel and back</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HALF WINDOW / BOTTOM SHEET MODAL -->
+  <div class="modal-overlay" id="result-modal">
+    <div class="bottom-sheet" id="sheet-content">
+      <div class="modal-icon-circle" id="modal-icon-bg">
+        <i class="fa-solid fa-check" id="modal-icon"></i>
+      </div>
+
+      <h2 class="modal-title" id="modal-title">Verification Successful!</h2>
+      <p class="modal-desc" id="modal-desc">
+        Your email has been verified. You can now complete your basic details.
+      </p>
+
+      <button class="btn-submit" id="modal-btn">Continue</button>
+      <div class="modal-subtext" id="modal-subtext">Basic details entry in next step</div>
+    </div>
+  </div>
+
+  <script>
+    // Configure window.API_BASE_URL before this script when the backend is not localhost:3000.
+    // Step Sections
+    const stepSignup = document.getElementById('step-signup');
+    const stepOtp = document.getElementById('step-otp');
+    const stepProfile = document.getElementById('step-profile');
+
+    // Controls
+    const toggleBtn = document.getElementById('toggle-input-btn');
+    const emailGroup = document.getElementById('email-field-group');
+    const phoneGroup = document.getElementById('phone-field-group');
+    const signupForm = document.getElementById('signup-form');
+    const targetDisplay = document.getElementById('target-display');
+    const resendBtn = document.getElementById('resend-btn');
+    const timerDisplay = document.getElementById('timer');
+    const otpInputs = document.querySelectorAll('.otp-input');
+    const otpWrapper = document.getElementById('otp-inputs-wrapper');
+    const cancelBackBtn = document.getElementById('cancel-back-btn');
+
+    // Modal elements
+    const modalOverlay = document.getElementById('result-modal');
+    const sheetContent = document.getElementById('sheet-content');
+    const modalIcon = document.getElementById('modal-icon');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+    const modalBtn = document.getElementById('modal-btn');
+    const modalSubtext = document.getElementById('modal-subtext');
+
+    let isEmailMode = true;
+    let timerInterval;
+
+    const API_BASE_URL = (window.parent?.NAVGTA?.getBase?.() || window.NAVGTA?.getBase?.() || '').replace(/\/$/, '');
+    let pendingIdentifier = '';
+    let verifiedToken = '';
+    async function authApi(path, body, token) {
+      const api = window.parent?.NAVGTA || window.NAVGTA;
+      if (api?.request && !token) return api.request(path, {method:'POST', body:JSON.stringify(body)});
+      const response = await fetch(API_BASE_URL + path, {method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:JSON.stringify(body)});
+      let data = {}; try { data = await response.json(); } catch {}
+      if (!response.ok || data.success === false) throw new Error(data?.error?.message || data?.message || `Request failed (${response.status})`);
+      return data;
+    }
+    function showSignupError(message) {
+      sheetContent.classList.add('error-mode');
+      modalIcon.className = 'fa-solid fa-xmark';
+      modalTitle.textContent = 'Unable to continue';
+      modalDesc.textContent = message;
+      modalBtn.textContent = 'Try Again';
+      modalSubtext.style.display = 'none';
+      modalOverlay.classList.add('active');
+    }
+    function currentSignupIdentifier() {
+      if (isEmailMode) return document.getElementById('email').value.trim().toLowerCase();
+      const code = document.getElementById('country-code').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      return (code + phone).replace(/\\s+/g, '');
+    }
+
+
+    // Toggle Mode (Email vs Phone)
+    toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (isEmailMode) {
+        emailGroup.classList.add('hidden');
+        phoneGroup.classList.remove('hidden');
+        toggleBtn.textContent = 'use Email Address';
+        isEmailMode = false;
+      } else {
+        phoneGroup.classList.add('hidden');
+        emailGroup.classList.remove('hidden');
+        toggleBtn.textContent = 'use Phone Number';
+        isEmailMode = true;
+      }
+    });
+
+    // Mask helper
+    function maskValue(val, isEmail) {
+      if (!val) return isEmail ? 'email j***@example.com' : 'phone +91 98******10';
+      
+      if (isEmail) {
+        const parts = val.split('@');
+        if (parts.length === 2) {
+          const name = parts[0];
+          const maskedName = name.length > 1 ? name[0] + '***' : name + '***';
+          return `email ${maskedName}@${parts[1]}`;
+        }
+        return `email ${val}`;
+      } else {
+        const code = document.getElementById('country-code').value;
+        const maskedNum = val.length > 4 
+          ? val.substring(0, 2) + '*'.repeat(val.length - 4) + val.slice(-2) 
+          : val;
+        return `phone ${code} ${maskedNum}`;
+      }
+    }
+
+    // Ask the backend to issue an OTP before showing the verification step.
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const identifier = currentSignupIdentifier();
+      if (!identifier || (isEmailMode && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier)) || (!isEmailMode && identifier.replace(/\D/g,'').length < 7)) {
+        showSignupError(isEmailMode ? 'Enter a valid email address.' : 'Enter a valid phone number including country code.');
+        return;
+      }
+      if (!document.getElementById('terms').checked) {
+        showSignupError('Please accept the terms to continue.');
+        return;
+      }
+      try {
+        pendingIdentifier = identifier;
+        await authApi('/api/auth/otp/send', {identifier});
+        targetDisplay.textContent = maskValue(isEmailMode ? identifier : document.getElementById('phone').value, isEmailMode);
+        stepSignup.classList.add('hidden');
+        stepOtp.classList.remove('hidden');
+        otpInputs[0].focus();
+        startTimer();
+      } catch (err) {
+        showSignupError(err.message || 'Could not send verification code.');
+      }
+    });
+
+    // OTP Auto-focus
+    otpInputs.forEach((input, index) => {
+      input.addEventListener('input', () => {
+        input.classList.remove('error');
+        if (input.value.length === 1 && index < otpInputs.length - 1) {
+          otpInputs[index + 1].focus();
+        }
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !input.value && index > 0) {
+          otpInputs[index - 1].focus();
+        }
+      });
+    });
+
+    // Countdown Timer
+    function startTimer() {
+      let timeLeft = 45;
+      resendBtn.classList.add('disabled');
+      timerDisplay.textContent = '45';
+
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = timeLeft < 10 ? `0${timeLeft}` : timeLeft;
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          resendBtn.classList.remove('disabled');
+          resendBtn.innerHTML = 'Request Again';
+        }
+      }, 1000);
+    }
+
+    resendBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      if (resendBtn.classList.contains('disabled') || !pendingIdentifier) return;
+      try {
+        await authApi('/api/auth/otp/send', {identifier: pendingIdentifier});
+        resendBtn.innerHTML = 'Request Again (in 0:<span id="timer">45</span>)';
+        startTimer();
+      } catch (err) { showSignupError(err.message || 'Could not resend verification code.'); }
+    });
+
+    // Verify the real code with the backend; no hard-coded demo OTP.
+    document.getElementById('otp-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const otpCode = Array.from(otpInputs).map(input => input.value.trim()).join('');
+      if (!/^\d{6}$/.test(otpCode)) return showErrorState();
+      try {
+        const data = await authApi('/api/auth/otp/verify', {identifier: pendingIdentifier, code: otpCode});
+        verifiedToken = data.token;
+        if (window.parent?.NAVGTA) window.parent.NAVGTA.setSession(data); else { localStorage.setItem('navgta_auth_token', data.token); localStorage.setItem('navgta_user', JSON.stringify(data.user || {})); }
+        showSuccessModal();
+      } catch (err) {
+        showErrorState();
+        modalDesc.textContent = err.message || 'The code is invalid or expired. Please try again.';
+      }
+    });
+
+    function showSuccessModal() {
+      sheetContent.classList.remove('error-mode');
+      modalIcon.className = 'fa-solid fa-check';
+      modalTitle.textContent = 'Verification Successful!';
+      modalDesc.textContent = `Your ${isEmailMode ? 'email' : 'phone number'} has been verified. You can now complete your basic details.`;
+      modalBtn.textContent = 'Continue';
+      modalSubtext.textContent = 'Basic details entry in next step';
+      modalSubtext.style.display = 'block';
+
+      modalOverlay.classList.add('active');
+    }
+
+    function showErrorState() {
+      otpInputs.forEach(input => input.classList.add('error'));
+      otpWrapper.classList.add('shake');
+      setTimeout(() => otpWrapper.classList.remove('shake'), 400);
+
+      sheetContent.classList.add('error-mode');
+      modalIcon.className = 'fa-solid fa-xmark';
+      modalTitle.textContent = 'Verification Failed!';
+      modalDesc.textContent = 'The code you entered is incorrect or expired. Please check and try again.';
+      modalBtn.textContent = 'Try Again';
+      modalSubtext.style.display = 'none';
+
+      modalOverlay.classList.add('active');
+    }
+
+    // Modal Button Click -> Go to Step 3 or Retry
+    modalBtn.addEventListener('click', () => {
+      modalOverlay.classList.remove('active');
+      
+      if (!sheetContent.classList.contains('error-mode')) {
+        // Go to Step 3 (Profile completion)
+        stepOtp.classList.add('hidden');
+        stepProfile.classList.remove('hidden');
+      } else {
+        // Clear OTP inputs for retry
+        otpInputs.forEach(input => input.value = '');
+        otpInputs[0].focus();
+      }
+    });
+
+    // Toggle Password Eye Icons
+    document.querySelectorAll('.toggle-eye').forEach(eyeIcon => {
+      eyeIcon.addEventListener('click', () => {
+        const targetId = eyeIcon.getAttribute('data-target');
+        const targetInput = document.getElementById(targetId);
+
+        if (targetInput.type === 'password') {
+          targetInput.type = 'text';
+          eyeIcon.classList.remove('fa-eye-slash');
+          eyeIcon.classList.add('fa-eye');
+        } else {
+          targetInput.type = 'password';
+          eyeIcon.classList.remove('fa-eye');
+          eyeIcon.classList.add('fa-eye-slash');
+        }
+      });
+    });
+
+    // The supplied backend only persists identifier + OTP verification.
+    // Profile fields/password are validated here but cannot be persisted until a profile API exists.
+    document.getElementById('profile-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const p1 = document.getElementById('new-password').value;
+      const p2 = document.getElementById('confirm-password').value;
+      if (p1 !== p2) return showSignupError('Passwords do not match.');
+      if (!verifiedToken) return showSignupError('Please verify your OTP before completing signup.');
+      try {
+        const apiClient = window.parent?.NAVGTA || window.NAVGTA;
+        await apiClient.request('/api/users/me', {headers:{Authorization:'Bearer '+verifiedToken}});
+        const profile = {fullName:document.getElementById('fullname').value.trim(), dob:document.getElementById('dob').value.trim(), address:document.getElementById('address').value.trim()};
+        localStorage.setItem('navgta_profile_draft', JSON.stringify(profile));
+        if (window.parent && typeof window.parent.completeAuth === 'function') window.parent.completeAuth();
+        else window.location.href = '../../Home/home.html';
+      } catch (err) { showSignupError(err.message || 'Could not complete signup.'); }
+    });
+
+    // Cancel and Back Link
+    cancelBackBtn.addEventListener('click', () => {
+      stepProfile.classList.add('hidden');
+      stepOtp.classList.remove('hidden');
+    });
+    
+</script>
+
+</body>
+</html>

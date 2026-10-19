@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../shared/api.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agency / Promotion Center</title>
+  <style>
+    :root {
+      --bg-color: #080d14;
+      --card-bg: #0d141e;
+      --border-color: #1e293b;
+      --gold-primary: #f3ce63;
+      --gold-dark: #d4af37;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 16px;
+      padding-bottom: 80px; /* Space for bottom nav */
+    }
+
+    .header-title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    /* --- TOP BANNER --- */
+    .top-banner {
+      background: linear-gradient(135deg, #2a2416 0%, #151922 100%);
+      border: 1px solid var(--gold-dark);
+      border-radius: 12px;
+      padding: 24px 16px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
+      position: relative;
+    }
+
+    .top-banner .icon-coin {
+      width: 40px;
+      height: 40px;
+      background: var(--gold-primary);
+      border-radius: 50%;
+      margin: 0 auto 12px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-weight: bold;
+      box-shadow: 0 0 10px var(--gold-primary);
+    }
+
+    .top-banner h2 {
+      font-size: 28px;
+      color: var(--gold-primary);
+      margin-bottom: 6px;
+    }
+
+    .top-banner p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .action-btn {
+      background: linear-gradient(90deg, #f3ce63 0%, #d4af37 100%);
+      color: #000;
+      font-weight: 600;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 24px;
+      cursor: pointer;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(243, 206, 99, 0.3);
+    }
+
+    /* --- LOGGED-IN SUBORDINATES GRID --- */
+    .subordinates-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .sub-column {
+      text-align: center;
+    }
+
+    .sub-column:first-child {
+      border-right: 1px solid var(--border-color);
+    }
+
+    .sub-column h4 {
+      font-size: 13px;
+      color: var(--gold-primary);
+      margin-bottom: 12px;
+    }
+
+    .sub-stat {
+      margin-bottom: 10px;
+    }
+
+    .sub-stat .val {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--text-main);
+    }
+
+    .sub-stat .lbl {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* --- MENU LIST ITEMS --- */
+    .menu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .menu-item {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .menu-item span {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .menu-item svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-muted);
+    }
+
+    /* --- PROMOTION DATA BOX --- */
+    .promo-data-box {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .promo-title {
+      font-size: 13px;
+      color: var(--gold-primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .promo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .promo-stat .val {
+      font-size: 15px;
+      font-weight: bold;
+      color: var(--text-main);
+    }
+
+    .promo-stat .lbl {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* --- RULES SECTION (LOGGED OUT VIEW) --- */
+    .rules-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .rules-title {
+      text-align: center;
+      color: var(--gold-primary);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .rules-subtitle {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .rule-block {
+      margin-bottom: 14px;
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .rule-block strong {
+      color: var(--text-main);
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+
+    /* --- REBATE TABLE --- */
+    .rebate-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .rebate-table th {
+      background-color: #151c28;
+      color: var(--gold-primary);
+      padding: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .rebate-table td {
+      padding: 8px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    /* Toggle Switch Button for Testing Views */
+    .toggle-view-bar {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .toggle-btn {
+      background: #1e293b;
+      color: var(--gold-primary);
+      border: 1px solid var(--gold-dark);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .hidden-view {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-title">Agency</div>
+
+  <!-- Toggle Control (Optional for testing both designs shown in your screenshots) -->
+  <div class="toggle-view-bar">
+    <button class="toggle-btn" onclick="toggleView()">Agent dashboard (not connected)</button>
+  </div>
+
+  <!-- VIEW 1: LOGGED OUT (Promotion Center)[span_4](start_span)[span_4](end_span) -->
+  <div id="loggedOutView">
+    <div class="top-banner">
+      <div class="icon-coin">🏆</div>
+      <h2>Agency promotion center</h2>
+      <p>Log in to view your invitation code, subordinate data, and commission details</p>
+      <button class="action-btn">Log in to view</button>
+    </div>
+
+    <div class="rules-section">
+      <div class="rules-title">[ Promotion partner ] program</div>
+      <div class="rules-subtitle">This activity is valid for a long time</div>
+
+      <div class="rule-block">
+        <strong>01</strong>
+        There are 4 subordinate levels in inviting friends. If A invites B, then B is a level 1 subordinate of A. If B invites C, then C is a level 1 subordinate of B and also a level 2 subordinate of A. If C invites D, then D is a level 1 subordinate of C, at the same time a level 2 subordinate of B and also a level 3 subordinate of A.
+      </div>
+      <div class="rule-block">
+        <strong>02</strong>
+        When inviting friends to register, you must send the invitation link provided or enter the invitation code manually so that your friends become your level 1 subordinates.
+      </div>
+      <div class="rule-block">
+        <strong>03</strong>
+        The invitee registers via the inviter's invitation code and completes the deposit, shortly after that the commission will be received immediately.
+      </div>
+      <div class="rule-block">
+        <strong>04</strong>
+        The calculation of yesterday's commission starts every morning at 01:00. After the commission calculation is completed, the commission is rewarded to the wallet and can be viewed through the commission collection record.
+      </div>
+      <div class="rule-block">
+        <strong>05</strong>
+        Commission rates very depending on your agency level on that day. Team Deposits: The total number of deposits made by your downline in one day.
+      </div>
+
+      <!-- Rebate Table -->
+      <table class="rebate-table">
+        <thead>
+          <tr>
+            <th>Rebate level</th>
+            <th>Team Number</th>
+            <th>Team Betting</th>
+            <th>Team Deposit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>👑 1</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>👑 2</td><td>5</td><td>500K</td><td>100K</td></tr>
+          <tr><td>👑 3</td><td>10</td><td>1,000K</td><td>200K</td></tr>
+          <tr><td>👑 4</td><td>15</td><td>2.50M</td><td>500K</td></tr>
+          <tr><td>👑 5</td><td>20</td><td>3.50M</td><td>700K</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- VIEW 2: LOGGED IN (Agency Dashboard)[span_5](start_span)[span_5](end_span) -->
+  <div id="loggedInView" class="hidden-view">
+    <div class="top-banner">
+      <h2>0</h2>
+      <p>Yesterday's total commission</p>
+      <span style="font-size: 11px; color: var(--gold-primary);">Upgrade the level to increase commission income</span>
+    </div>
+
+    <!-- Subordinates Info Grid -->
+    <div class="subordinates-grid">
+      <div class="sub-column">
+        <h4>Direct subordinates</h4>
+        <div class="sub-stat">
+          <div class="val">0</div>
+          <div class="lbl">Number of register</div>
+        </div>
+        <div class="sub-stat">
+          <div class="val" style="color: #22c55e;">0</div>
+          <div class="lbl">Deposit number</div>
+        </div>
+        <div class="sub-stat">
+          <div class="val" style="color: var(--gold-primary);">0</div>
+          <div class="lbl">Deposit amount</div>
+        </div>
+        <div class="sub-stat">
+          <div class="val">0</div>
+          <div class="lbl">Number of people making first deposit</div>
+        </div>
+      </div>
+
+      <div class="sub-column">
+        <h4>Team subordinates</h4>
+        <div class="sub-stat">
+          <div class="val">0</div>
+          <div class="lbl">Number of register</div>
+        </div>
+        <div class="sub-stat">
+          <div class="val" style="color: #22c55e;">0</div>
+          <div class="lbl">Deposit number</div>
+        </div>
+        <div class="sub-stat">
+          <div class="val" style="color: var(--gold-primary);">0</div>
+          <div class="lbl">Deposit amount</div>
+        </div>
+        <div class="sub-stat">
+          <div class="val">0</div>
+          <div class="lbl">Number of people making first deposit</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Invitation Button -->
+    <div style="margin-bottom: 20px;">
+      <button class="action-btn" style="width: 100%; border-radius: 12px; padding: 14px;">INVITATION LINK</button>
+    </div>
+
+    <!-- Menu Navigation Items -->
+    <div class="menu-list">
+      <div class="menu-item">
+        <span>📦 Copy invitation code</span>
+        <span style="color: var(--text-muted);">8166810505102 📋</span>
+      </div>
+      <div class="menu-item">
+        <span>📋 Subordinate data</span>
+        <svg viewBox="0 0 24 24" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </div>
+      <div class="menu-item">
+        <span>💰 Commission detail</span>
+        <svg viewBox="0 0 24 24" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </div>
+      <div class="menu-item">
+        <span>📖 Invitation rules</span>
+        <svg viewBox="0 0 24 24" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </div>
+      <div class="menu-item">
+        <span>🎧 Agent line customer service</span>
+        <svg viewBox="0 0 24 24" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </div>
+      <div class="menu-item">
+        <span>💰 Rebate ratio</span>
+        <svg viewBox="0 0 24 24" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </div>
+    </div>
+
+    <!-- Promotion Data Summary Box -->
+    <div class="promo-data-box">
+      <div class="promo-title">📊 Promotion data</div>
+      <div class="promo-grid">
+        <div class="promo-stat">
+          <div class="val">0</div>
+          <div class="lbl">This Week</div>
+        </div>
+        <div class="promo-stat">
+          <div class="val" style="color: var(--gold-primary);">932.68</div>
+          <div class="lbl">Total commission</div>
+        </div>
+        <div class="promo-stat" style="margin-top: 12px;">
+          <div class="val">10</div>
+          <div class="lbl">Direct Subordinate</div>
+        </div>
+        <div class="promo-stat" style="margin-top: 12px;">
+          <div class="val">1</div>
+          <div class="lbl">Total number of subordinates in the team</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simple toggle function to test switching between logged-out and logged-in states
+    function toggleView() { alert('Agent/referral/commission APIs are not present in the supplied backend. This screen cannot be connected until those endpoints exist.'); }
+  </script>
+</body>
+</html>

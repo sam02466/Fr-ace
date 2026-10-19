@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    html, body { width: 100%; overflow-x: hidden; background-color: #121212; }
+    body { display: flex; justify-content: center; min-height: 100vh; }
+
+    .app-container {
+      width: 100%; max-width: 480px; background-color: #1a1a1a;
+      padding: 12px; display: flex; flex-direction: column; gap: 14px;
+      padding-bottom: 100px; box-sizing: border-box;
+    }
+
+    /* --- PROFILE HEADER --- */
+    .profile-header {
+      display: flex; align-items: center; gap: 14px;
+      background: linear-gradient(135deg, #2a2416 0%, #1a1a1a 70%);
+      border: 1px solid #3a3220; border-radius: 16px; padding: 16px;
+    }
+    .avatar-ring {
+      width: 72px; height: 72px; border-radius: 50%; padding: 3px;
+      background: linear-gradient(145deg, #ffd778, #f5ab35);
+      flex-shrink: 0;
+    }
+    .avatar-ring img {
+      width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+      border: 3px solid #1a1a1a; display: block;
+    }
+    .profile-info { flex: 1; min-width: 0; }
+    .profile-name { color: #fff; font-size: 18px; font-weight: 800; }
+    .profile-id {
+      color: #9e9e9e; font-size: 12px; font-weight: 600; margin-top: 3px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .vip-badge {
+      background: linear-gradient(145deg, #ffd778, #f5ab35); color: #1a0f00;
+      font-size: 10px; font-weight: 900; padding: 2px 8px; border-radius: 8px;
+    }
+    .edit-btn {
+      background: #2a2a2a; border: 1px solid #3d3d3d; color: #f5cf80;
+      width: 36px; height: 36px; border-radius: 10px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+
+    /* --- BALANCE CARD --- */
+    .balance-card {
+      background: linear-gradient(145deg, #ffd778 0%, #f5ab35 100%);
+      border-radius: 16px; padding: 18px;
+      box-shadow: 0 4px 12px rgba(245, 171, 53, 0.25);
+    }
+    .balance-label { color: #4a3200; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .balance-amount { color: #1a0f00; font-size: 30px; font-weight: 900; margin: 6px 0 14px; }
+    .balance-actions { display: flex; gap: 10px; }
+    .bal-btn {
+      flex: 1; padding: 10px 0; border-radius: 10px; border: none;
+      font-size: 13px; font-weight: 800; cursor: pointer; transition: transform 0.15s;
+    }
+    .bal-btn:active { transform: scale(0.96); }
+    .bal-btn.primary { background: #1a1a1a; color: #ffd778; }
+    .bal-btn.secondary { background: rgba(0,0,0,0.15); color: #1a0f00; border: 1px solid rgba(0,0,0,0.25); }
+
+    /* --- STATS ROW --- */
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .stat-card {
+      background: #242424; border: 1px solid #2e2e2e; border-radius: 14px;
+      padding: 14px 8px; text-align: center;
+    }
+    .stat-value { color: #f5cf80; font-size: 17px; font-weight: 900; }
+    .stat-label { color: #9e9e9e; font-size: 11px; font-weight: 600; margin-top: 4px; }
+
+    /* --- MENU LIST --- */
+    .menu-section-title {
+      color: #f5cf80; font-size: 15px; font-weight: 800; margin-top: 4px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .menu-section-title::before {
+      content: ""; width: 4px; height: 16px; background: #f5cf80; border-radius: 2px;
+    }
+    .menu-list { display: flex; flex-direction: column; gap: 8px; }
+    .menu-item {
+      background: #242424; border: 1px solid #2e2e2e; border-radius: 12px;
+      height: 54px; display: flex; align-items: center; gap: 14px;
+      padding: 0 14px; cursor: pointer; transition: transform 0.15s;
+    }
+    .menu-item:active { transform: scale(0.98); }
+    .menu-icon {
+      width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+      background: rgba(245, 207, 128, 0.12); color: #f5cf80;
+      display: flex; align-items: center; justify-content: center; font-size: 15px;
+    }
+    .menu-text { flex: 1; color: #e5e5e5; font-size: 14px; font-weight: 700; }
+    .menu-arrow { color: #6b6b6b; font-size: 13px; }
+    .menu-item.danger .menu-icon { background: rgba(255, 82, 82, 0.12); color: #ff5252; }
+    .menu-item.danger .menu-text { color: #ff8080; }
+
+    .version-tag { text-align: center; color: #555; font-size: 11px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <script src="../shared/api.js"></script>
+  <div class="app-container">
+
+    <!-- PROFILE HEADER -->
+    <div class="profile-header">
+      <div class="avatar-ring">
+        <img src="https://via.placeholder.com/144/333/f5cf80?text=ME" alt="Avatar"
+             onerror="this.src='https://via.placeholder.com/144/333/f5cf80?text=ME'">
+      </div>
+      <div class="profile-info">
+        <div class="profile-name" id="profileName">Player</div>
+        <div class="profile-id">
+          <span id="profileIdentifier">Signed-in account</span>
+          <span class="vip-badge">VIP 3</span>
+        </div>
+      </div>
+      <button class="edit-btn" onclick="unsupportedAction('Profile editing')"><i class="fa-solid fa-pen"></i></button>
+    </div>
+
+    <!-- BALANCE -->
+    <div class="balance-card">
+      <div class="balance-label">Total Balance</div>
+      <div class="balance-amount" id="walletBalance">Loading…</div>
+      <div class="balance-actions">
+        <button class="bal-btn primary" onclick="unsupportedAction('Deposit')">Deposit unavailable</button>
+        <button class="bal-btn secondary" onclick="unsupportedAction('Withdraw')">Withdraw unavailable</button>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value" id="gamesPlayed">—</div>
+        <div class="stat-label">Games Played</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">—</div>
+        <div class="stat-label">Wins</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">—</div>
+        <div class="stat-label">Global Rank</div>
+      </div>
+    </div>
+
+    <!-- MENU -->
+    <div class="menu-section-title">Account</div>
+    <div class="menu-list">
+      <div class="menu-item" onclick="showAccountInfo()">
+        <div class="menu-icon"><i class="fa-solid fa-user"></i></div>
+        <div class="menu-text">Personal Information</div>
+        <i class="fa-solid fa-chevron-right menu-arrow"></i>
+      </div>
+      <div class="menu-item" onclick="refreshWallet()">
+        <div class="menu-icon"><i class="fa-solid fa-wallet"></i></div>
+        <div class="menu-text">My Wallet</div>
+        <i class="fa-solid fa-chevron-right menu-arrow"></i>
+      </div>
+      <div class="menu-item" onclick="openTransactions()">
+        <div class="menu-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+        <div class="menu-text">Transaction History</div>
+        <i class="fa-solid fa-chevron-right menu-arrow"></i>
+      </div>
+      <div class="menu-item" onclick="unsupportedAction('Bonuses')">
+        <div class="menu-icon"><i class="fa-solid fa-gift"></i></div>
+        <div class="menu-text">My Bonuses</div>
+        <i class="fa-solid fa-chevron-right menu-arrow"></i>
+      </div>
+    </div>
+
+    <div class="menu-section-title">Preferences</div>
+    <div class="menu-list">
+      <div class="menu-item" onclick="if(window.parent&&window.parent.openNotifications)window.parent.openNotifications()">
+        <div class="menu-icon"><i class="fa-solid fa-bell"></i></div>
+        <div class="menu-text">Notifications</div>
+        <i class="fa-solid fa-chevron-right menu-arrow"></i>
+      </div>
+      <div class="menu-item" onclick="unsupportedAction('Language preferences')">
+        <div class="menu-icon"><i class="fa-solid fa-globe"></i></div>
+        <div class="menu-text">Language</div>
+        <i class="fa-solid fa-chevron-right menu-arrow"></i>
+      </div>
+      <div class="menu-item" onclick="unsupportedAction('Help and support')">
+        <div class="menu-icon"><i class="fa-solid fa-circle-question"></i></div>
+        <div class="menu-text">Help &amp; Support</div>
+        <i class="fa-solid fa-chevron-right menu-arrow"></i>
+      </div>
+      <div class="menu-item danger" onclick="logoutUser()">
+        <div class="menu-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
+        <div class="menu-text">Log Out</div>
+        <i class="fa-solid fa-chevron-right menu-arrow"></i>
+      </div>
+    </div>
+
+    <div class="version-tag">Ace Win v1.0.0</div>
+
+  </div>
+<script>
+const api=window.parent?.NAVGTA||window.NAVGTA;
+function unsupportedAction(name){alert(name+' is not available yet because the supplied backend has no API for it.');}
+async function refreshWallet(){try{const d=await api.wallet('INR');document.getElementById('walletBalance').textContent=api.money(d.wallet?.balance||0,'INR')}catch(e){document.getElementById('walletBalance').textContent='Unavailable';alert(e.message)}}
+async function openTransactions(){try{const d=await api.transactions('INR');const rows=d.transactions||[];alert(rows.length?rows.slice(0,10).map(x=>`${x.type||x.kind||'Transaction'} · ${api.money(x.amount)} · ${api.date(x.createdAt)}`).join('\n'):'No wallet transactions yet.')}catch(e){alert(e.message)}}
+async function showAccountInfo(){try{const d=await api.me();const u=d.user||{};alert(['Account ID: '+(u.id||'—'),'Email: '+(u.email||'—'),'Phone: '+(u.phone||'—'),'Status: '+(u.status||'—')].join('\n'))}catch(e){alert(e.message)}}
+async function logoutUser(){try{await api.logout()}catch(_){} if(window.parent?.showSignedOut)window.parent.showSignedOut();else location.href='../Auth onboarding/onboarding.html'}
+(async()=>{try{const [m,w,s]=await Promise.all([api.me(),api.wallet('INR'),api.sessions(100)]);const u=m.user||{};document.getElementById('profileName').textContent=u.name||u.fullName||u.email||u.phone||'Player';document.getElementById('profileIdentifier').textContent=u.email||u.phone||u.id||'Signed-in account';document.getElementById('walletBalance').textContent=api.money(w.wallet?.balance||0,'INR');document.getElementById('gamesPlayed').textContent=(s.sessions||[]).length;}catch(e){document.getElementById('walletBalance').textContent='Sign in required';}})();
+</script>
+</body>
+</html>

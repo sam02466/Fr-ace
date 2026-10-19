@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Notification</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    html, body { width: 100%; overflow-x: hidden; background-color: #121212; }
+    body { display: flex; justify-content: center; min-height: 100vh; }
+
+    .app-container {
+      width: 100%; max-width: 480px; background-color: #1a1a1a;
+      padding: 12px; display: flex; flex-direction: column; gap: 14px;
+      padding-bottom: 100px; box-sizing: border-box;
+    }
+
+    /* --- FILTER TABS --- */
+    .tabs-row { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+    .tabs-row::-webkit-scrollbar { display: none; }
+    .tab {
+      flex-shrink: 0; padding: 8px 16px; border-radius: 20px;
+      background: #242424; border: 1px solid #2e2e2e; color: #9e9e9e;
+      font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab.active {
+      background: linear-gradient(145deg, #ffd778, #f5ab35);
+      color: #1a0f00; border-color: transparent;
+      box-shadow: 0 2px 8px rgba(245, 171, 53, 0.3);
+    }
+
+    /* --- DATE GROUP --- */
+    .date-label { color: #6b6b6b; font-size: 12px; font-weight: 700; margin: 4px 2px -4px; }
+
+    /* --- ACTIVITY ROWS --- */
+    .activity-list { display: flex; flex-direction: column; gap: 8px; }
+    .activity-row {
+      background: #242424; border: 1px solid #2e2e2e; border-radius: 12px;
+      display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+      cursor: pointer; transition: transform 0.15s;
+    }
+    .activity-row:active { transform: scale(0.98); }
+    .act-icon {
+      width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 16px;
+    }
+    .act-icon.in  { background: rgba(76, 217, 123, 0.12); color: #4cd97b; }
+    .act-icon.out { background: rgba(255, 82, 82, 0.12);  color: #ff5252; }
+    .act-icon.game{ background: rgba(245, 207, 128, 0.12); color: #f5cf80; }
+    .act-icon.bonus{ background: rgba(79, 172, 254, 0.12); color: #4facfe; }
+    .act-details { flex: 1; min-width: 0; }
+    .act-title { color: #e5e5e5; font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .act-sub { color: #7a7a7a; font-size: 11px; font-weight: 600; margin-top: 3px; }
+    .act-amount { text-align: right; flex-shrink: 0; }
+    .amt-value { font-size: 14px; font-weight: 900; }
+    .amt-value.pos { color: #4cd97b; }
+    .amt-value.neg { color: #ff5252; }
+    .amt-status {
+      display: inline-block; font-size: 10px; font-weight: 800; margin-top: 4px;
+      padding: 2px 8px; border-radius: 8px;
+    }
+    .amt-status.success { background: rgba(76,217,123,0.12); color: #4cd97b; }
+    .amt-status.pending { background: rgba(255,193,7,0.12);  color: #ffc107; }
+    .amt-status.failed  { background: rgba(255,82,82,0.12);  color: #ff5252; }
+
+    .empty-state { text-align: center; color: #555; padding: 40px 0; font-size: 13px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <script src="../shared/api.js"></script>
+  <div class="app-container">
+
+    <!-- TABS -->
+    <div class="tabs-row">
+      <button class="tab active" data-filter="all" onclick="filterList('all', this)">All</button>
+      <button class="tab" data-filter="deposit" onclick="filterList('deposit', this)">Deposits</button>
+      <button class="tab" data-filter="withdraw" onclick="filterList('withdraw', this)">Withdrawals</button>
+      <button class="tab" data-filter="game" onclick="filterList('game', this)">Game History</button>
+      <button class="tab" data-filter="bonus" onclick="filterList('bonus', this)">Bonuses</button>
+    </div>
+
+    <!-- LIST -->
+    <div id="activityList"></div>
+
+  </div>
+
+  <script>
+    let activities = [];
+    const api = window.parent?.NAVGTA || window.NAVGTA;
+
+    function renderList(filter) {
+      const container = document.getElementById('activityList');
+      container.innerHTML = '';
+
+      const filtered = filter === 'all' ? activities : activities.filter(a => a.type === filter || (filter === 'game' && a.type === 'game'));
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty-state">No activity found</div>';
+        return;
+      }
+
+      let lastDate = null;
+      filtered.forEach(a => {
+        if (a.date !== lastDate) {
+          const dl = document.createElement('div');
+          dl.className = 'date-label';
+          dl.textContent = a.date;
+          container.appendChild(dl);
+          lastDate = a.date;
+        }
+        const isPos = a.amount.startsWith('+');
+        const row = document.createElement('div');
+        row.className = 'activity-row';
+        row.onclick = () => { if(a.detail) alert(a.detail); };
+        row.innerHTML = `
+          <div class="act-icon ${a.type}"><i class="fa-solid ${a.icon}"></i></div>
+          <div class="act-details">
+            <div class="act-title">${a.title}</div>
+            <div class="act-sub">${a.sub}</div>
+          </div>
+          <div class="act-amount">
+            <div class="amt-value ${isPos ? 'pos' : 'neg'}">${a.amount}</div>
+            <span class="amt-status ${a.status}">${a.status.toUpperCase()}</span>
+          </div>`;
+        container.appendChild(row);
+      });
+    }
+
+    function filterList(type, btn) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      renderList(type);
+    }
+
+    async function loadActivities(){
+      const container=document.getElementById('activityList'); container.innerHTML='<div class="empty-state">Loading account activity…</div>';
+      try {
+        const [tx,ss]=await Promise.all([api.transactions('INR'),api.sessions(100)]);
+        activities=[];
+        (tx.transactions||[]).forEach(x=>{const amount=Number(x.amount||0);const typ=String(x.type||x.kind||'transaction').toLowerCase();let type=typ.includes('deposit')||typ==='credit'||typ==='win'? 'deposit':typ.includes('withdraw')?'withdraw':typ.includes('bonus')?'bonus':'game';activities.push({type,icon:type==='deposit'?'fa-arrow-down':type==='withdraw'?'fa-arrow-up':type==='bonus'?'fa-gift':'fa-gamepad',title:x.description||x.type||x.kind||'Wallet transaction',sub:api.date(x.createdAt),amount:(amount>=0?'+ ':'− ')+api.money(Math.abs(amount)),status:String(x.status||'recorded').toLowerCase(),date:new Date(x.createdAt||Date.now()).toLocaleDateString(),detail:JSON.stringify(x,null,2)});});
+        (ss.sessions||[]).forEach(x=>activities.push({type:'game',icon:'fa-gamepad',title:x.game?.name||'Game session',sub:api.date(x.createdAt),amount:'',status:String(x.status||'unknown').toLowerCase(),date:new Date(x.createdAt||Date.now()).toLocaleDateString(),detail:'Session: '+x.id+'\nProvider: '+(x.provider||'—')+'\nStatus: '+(x.status||'—')}));
+        activities.sort((a,b)=>new Date(b.date)-new Date(a.date));renderList(document.querySelector('.tab.active')?.dataset.filter||'all');
+      } catch(e){container.innerHTML='<div class="empty-state">'+api.escape(e.message)+'</div>';}
+    }
+    loadActivities();
+  </script>
+</body>
+</html>

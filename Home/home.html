@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Gaming App</title>
+  
+  <!-- Updated: style.css is in the same directory as home.html -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- 1. TOP CAROUSEL BANNER -->
+    <div class="banner-top-wrapper">
+      <div class="banner-top-slide active">
+        <img src="images/top-banner1.png" alt="Live Casino Banner 1" onerror="this.src='https://via.placeholder.com/480x125/003d36/ffffff?text=3000%2B+LIVE+CASINO+GAMES'">
+      </div>
+      <div class="banner-top-slide">
+        <img src="images/top-banner2.png" alt="Live Casino Banner 2" onerror="this.src='https://via.placeholder.com/480x125/1a365d/ffffff?text=WEEKLY+PROMOTION+BANNER'">
+      </div>
+
+      <div class="dots-container">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+
+    <!-- 2. MIDDLE PROMO BANNER -->
+    <div class="banner-mid-wrapper">
+      <div class="banner-mid-slide active">
+        <img src="images/aviator-banner1.png" alt="Aviator Bonus 1" onerror="this.src='https://via.placeholder.com/480x165/1c1c1c/f5cf80?text=AVIATOR+BONUS+PROMO+BANNER'">
+      </div>
+      <div class="banner-mid-slide">
+        <img src="images/aviator-banner2.png" alt="Aviator Bonus 2" onerror="this.src='https://via.placeholder.com/480x165/3b1c1c/f5cf80?text=VIP+REWARD+PROMO+BANNER'">
+      </div>
+    </div>
+
+    <!-- 3. CATEGORIES -->
+    <h2 class="section-title">Categories</h2>
+
+    <div class="grid-3">
+      <button class="category-card" onclick="selectCategory('trending', this)">
+        <div class="card-img-wrapper"><img src="images/trending.png" alt="Trending"></div>
+        <label>Trending</label>
+      </button>
+
+      <button class="category-card" onclick="selectCategory('betting', this)">
+        <div class="card-img-wrapper"><img src="images/betting.png" alt="Betting"></div>
+        <label>Betting</label>
+      </button>
+
+      <button class="category-card" onclick="selectCategory('slots', this)">
+        <div class="card-img-wrapper"><img src="images/slots.png" alt="Slots"></div>
+        <label>Slots</label>
+      </button>
+
+      <button class="category-card selected" id="default-cat" onclick="selectCategory('sports', this)">
+        <div class="card-img-wrapper"><img src="images/sports.png" alt="Sports"></div>
+        <label>Sports</label>
+      </button>
+
+      <button class="category-card" onclick="selectCategory('casino', this)">
+        <div class="card-img-wrapper"><img src="images/casino.png" alt="Casino"></div>
+        <label>Casino</label>
+      </button>
+
+      <button class="category-card" onclick="selectCategory('rummy', this)">
+        <div class="card-img-wrapper"><img src="images/rummy.png" alt="Rummy"></div>
+        <label>Rummy</label>
+      </button>
+    </div>
+
+    <div class="grid-2">
+      <button class="category-card card-wide" onclick="selectCategory('all-games', this)">
+        <div class="card-img-wrapper"><img src="images/all-games.png" alt="All games"></div>
+        <label>All games</label>
+      </button>
+
+      <button class="category-card card-wide" onclick="selectCategory('contest', this)">
+        <div class="card-img-wrapper"><img src="images/contest.png" alt="Contest"></div>
+        <label>Contest</label>
+      </button>
+    </div>
+
+    <!-- 4. DYNAMIC GAMES AREA -->
+    <div id="games-section">
+      <div class="section-header">
+        <div class="section-header-title" id="active-category-title">Sports</div>
+        <button class="view-all-btn" onclick="alert('Opening View All page...')">View All</button>
+      </div>
+
+      <div id="games-content-container"></div>
+    </div>
+
+    <!-- 5. SUPER JACKPOT BANNER -->
+    <div class="jackpot-banner-wrapper" onclick="alert('Super Jackpot Clicked!')">
+      <img src="images/jackpot-banner.png" alt="Super Jackpot" onerror="this.src='https://via.placeholder.com/480x130/220b00/ffaa00?text=Super+Jackpot+Get+Big+Bonus'">
+    </div>
+
+    <!-- 6. FEATURED GAMES SECTION -->
+    <div id="featured-section">
+      <div class="section-header">
+        <div class="section-header-title">Featured Games</div>
+        <button class="view-all-btn" onclick="alert('Opening View All Featured Games...')">View All</button>
+      </div>
+
+      <div class="featured-grid">
+        <div class="featured-card" onclick="alert('Launching Teen Patti...')">
+          <img src="images/featured-1.png" alt="Teen Patti" onerror="this.src='https://via.placeholder.com/220x150/4a1525/ffffff?text=Teen+Patti'">
+          <div class="featured-footer">
+            <span class="featured-name">Teen Patti</span>
+            <span class="play-now-btn">Play Now</span>
+          </div>
+        </div>
+
+        <div class="featured-card" onclick="alert('Launching Andhar Bahar...')">
+          <img src="images/featured-2.png" alt="Andhar Bahar" onerror="this.src='https://via.placeholder.com/220x150/1c3829/ffffff?text=Andhar+Bahar'">
+          <div class="featured-footer">
+            <span class="featured-name">Andhar Bahar</span>
+            <span class="play-now-btn">Play Now</span>
+          </div>
+        </div>
+
+        <div class="featured-card" onclick="alert('Launching Roulette...')">
+          <img src="images/featured-3.png" alt="Roulette" onerror="this.src='https://via.placeholder.com/220x150/331a00/ffffff?text=Roulette'">
+          <div class="featured-footer">
+            <span class="featured-name">Roulette</span>
+            <span class="play-now-btn">Play Now</span>
+          </div>
+        </div>
+
+        <div class="featured-card" onclick="alert('Launching Crazy Time...')">
+          <img src="images/featured-4.png" alt="Crazy Time" onerror="this.src='https://via.placeholder.com/220x150/1a0033/ffffff?text=Crazy+Time'">
+          <div class="featured-footer">
+            <span class="featured-name">Crazy Time</span>
+            <span class="play-now-btn">Play Now</span>
+          </div>
+        </div>
+
+        <div class="featured-card" onclick="alert('Launching Spribe...')">
+          <img src="images/featured-5.png" alt="Spribe" onerror="this.src='https://via.placeholder.com/220x150/002b4d/ffffff?text=Spribe'">
+          <div class="featured-footer">
+            <span class="featured-name">Spribe</span>
+            <span class="play-now-btn">Play Now</span>
+          </div>
+        </div>
+
+        <div class="featured-card" onclick="alert('Launching Slots...')">
+          <img src="images/featured-6.png" alt="Slots" onerror="this.src='https://via.placeholder.com/220x150/4a3b00/ffffff?text=Slots'">
+          <div class="featured-footer">
+            <span class="featured-name">Slots</span>
+            <span class="play-now-btn">Play Now</span>
+          </div>
+        </div>
+
+        <div class="featured-card" onclick="alert('Launching Dragon Tiger...')">
+          <img src="images/featured-7.png" alt="Dragon Tiger" onerror="this.src='https://via.placeholder.com/220x150/2d1400/ffffff?text=Dragon+Tiger'">
+          <div class="featured-footer">
+            <span class="featured-name">Dragon Tiger</span>
+            <span class="play-now-btn">Play Now</span>
+          </div>
+        </div>
+
+        <div class="featured-card" onclick="alert('Launching Jili...')">
+          <img src="images/featured-8.png" alt="Jili" onerror="this.src='https://via.placeholder.com/220x150/3b2d00/ffffff?text=Jili'">
+          <div class="featured-footer">
+            <span class="featured-name">Jili</span>
+            <span class="play-now-btn">Play Now</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. LEADERBOARD SECTION -->
+    <div id="leaderboard-section">
+      <div class="section-header">
+        <div class="section-header-title">Today's Leaderboard</div>
+      </div>
+
+      <!-- TOP 3 PODIUM -->
+      <div class="podium-container">
+        <!-- Rank 2 (Silver) -->
+        <div class="podium-step step-2">
+          <div class="avatar-wrapper">
+            <span class="crown silver-crown">👑</span>
+            <img src="https://via.placeholder.com/60/333/fff?text=User2" alt="Rank 2 Avatar" />
+            <span class="badge silver-badge">NO2</span>
+          </div>
+          <div class="podium-block">
+            <div class="user-id">Mem***E68</div>
+            <div class="earnings-pill">116,290,328.00</div>
+          </div>
+        </div>
+
+        <!-- Rank 1 (Gold) -->
+        <div class="podium-step step-1">
+          <div class="avatar-wrapper">
+            <span class="crown gold-crown">👑</span>
+            <img src="https://via.placeholder.com/70/444/fff?text=User1" alt="Rank 1 Avatar" />
+            <span class="badge gold-badge">NO1</span>
+          </div>
+          <div class="podium-block">
+            <div class="user-id">Mem***DBA</div>
+            <div class="earnings-pill">2,653,840,000.00</div>
+          </div>
+        </div>
+
+        <!-- Rank 3 (Bronze) -->
+        <div class="podium-step step-3">
+          <div class="avatar-wrapper">
+            <span class="crown bronze-crown">👑</span>
+            <img src="https://via.placeholder.com/60/222/fff?text=User3" alt="Rank 3 Avatar" />
+            <span class="badge bronze-badge">NO3</span>
+          </div>
+          <div class="podium-block">
+            <div class="user-id">Mem***PRR</div>
+            <div class="earnings-pill">8,635,608.10</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RANKS 4 TO 10 LIST -->
+      <div class="leaderboard-list">
+        <div class="leaderboard-row">
+          <span class="rank-num">4</span>
+          <img src="https://via.placeholder.com/40/333/fff?text=U4" class="row-avatar" alt="Avatar" />
+          <span class="row-username">Mem***NRX</span>
+          <span class="row-amount">2,538,347.00</span>
+        </div>
+
+        <div class="leaderboard-row">
+          <span class="rank-num">5</span>
+          <img src="https://via.placeholder.com/40/333/fff?text=U5" class="row-avatar" alt="Avatar" />
+          <span class="row-username">Mem***CEQ</span>
+          <span class="row-amount">2,286,849.60</span>
+        </div>
+
+        <div class="leaderboard-row">
+          <span class="rank-num">6</span>
+          <img src="https://via.placeholder.com/40/333/fff?text=U6" class="row-avatar" alt="Avatar" />
+          <span class="row-username">PR***CE</span>
+          <span class="row-amount">1,654,138.08</span>
+        </div>
+
+        <div class="leaderboard-row">
+          <span class="rank-num">7</span>
+          <img src="https://via.placeholder.com/40/333/fff?text=U7" class="row-avatar" alt="Avatar" />
+          <span class="row-username">Mem***8PP</span>
+          <span class="row-amount">1,588,335.00</span>
+        </div>
+
+        <div class="leaderboard-row">
+          <span class="rank-num">8</span>
+          <img src="https://via.placeholder.com/40/333/fff?text=U8" class="row-avatar" alt="Avatar" />
+          <span class="row-username">Mem***OHC</span>
+          <span class="row-amount">1,294,188.00</span>
+        </div>
+
+        <div class="leaderboard-row">
+          <span class="rank-num">9</span>
+          <img src="https://via.placeholder.com/40/333/fff?text=U9" class="row-avatar" alt="Avatar" />
+          <span class="row-username">Mem***DXR</span>
+          <span class="row-amount">933,293.20</span>
+        </div>
+
+        <div class="leaderboard-row">
+          <span class="rank-num">10</span>
+          <img src="https://via.placeholder.com/40/333/fff?text=U10" class="row-avatar" alt="Avatar" />
+          <span class="row-username">Mem***KAW</span>
+          <span class="row-amount">907,699.60</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Updated: JS files reside directly in the Home directory -->
+  <script src="data.js"></script>
+  <script src="carousel.js"></script>
+  <script src="app.js"></script>
+<script src="../shared/api.js"></script>
+<script>
+(async function(){
+ const api=window.parent?.NAVGTA||window.NAVGTA;
+ const container=document.getElementById('games-content-container');
+ const status=document.createElement('div'); status.style.cssText='color:#b9c4d2;padding:12px;font-size:13px'; container?.prepend(status);
+ let games=[];
+ function render(items){ if(!container)return; container.querySelectorAll('.api-games-grid').forEach(x=>x.remove()); const grid=document.createElement('div'); grid.className='api-games-grid'; grid.style.cssText='display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:8px';
+ if(!items.length){status.textContent='No games are available in the backend catalogue yet.';container.appendChild(grid);return;}
+ status.textContent=''; items.forEach(g=>{const b=document.createElement('button');b.type='button';b.style.cssText='background:#202b37;border:1px solid #334155;border-radius:12px;color:#fff;padding:8px;min-width:0;cursor:pointer'; const img=document.createElement('img');img.alt='';img.loading='lazy';img.style.cssText='width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px'; if(g.thumbnail)img.src=g.thumbnail; else img.style.display='none'; const name=document.createElement('div');name.textContent=g.name||'Game';name.style.cssText='font-size:12px;font-weight:700;margin-top:6px';const cat=document.createElement('small');cat.textContent=(g.category||g.provider||'Game').toString();cat.style.color='#aab6c5';b.append(img,name,cat);b.onclick=async()=>{if(!api.isAuthenticated()){alert('Please sign in before launching a game.');return;}b.disabled=true;try{await api.launchAndOpen(g.id);}catch(e){alert(e.message)}finally{b.disabled=false}};grid.appendChild(b)});container.appendChild(grid); }
+ window.renderLiveGames = function(categoryKey){ const keyMap={slots:['SLOTS'],casino:['LIVE_CASINO'],rummy:['CARD','TABLE'],sports:['CRASH','INSTANT'],betting:['CRASH','INSTANT'],trending:[],contest:[],'all-games':[]}; const wanted=keyMap[categoryKey]||[]; const list=categoryKey==='trending'?games.slice(0,8):games.filter(g=>!wanted.length||wanted.includes(String(g.category||'').toUpperCase())); render(list); };
+ try{const r=await api.games({limit:100,offset:0});games=r.items||[];window.NAVGTA_GAMES=games;window.renderLiveGames('sports');}catch(e){status.textContent=e.message+' Configure the backend API URL if needed.';}
+ window.addEventListener('message',e=>{if(e.data?.type==='navgta:refresh-games') location.reload()});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../shared/api.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gaming App Layout</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app-container">
+    <section class="game-section" id="liveCatalogue"><div class="section-header"><h2><span class="indicator">|</span> Live Game Catalogue</h2></div><div id="liveGameStatus" role="status">Loading games…</div><div class="game-grid" id="liveGameGrid"></div></section>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input id="gameSearch" type="text" placeholder="Search games" />
+    </div>
+
+    <!-- Auto-sliding Hero Banner (2.5s interval) -->
+    <div class="hero-slider-container">
+      <div class="hero-track">
+        <div class="hero-slide" style="background-image: url('assets/images/banner1.jpg');"></div>
+        <div class="hero-slide" style="background-image: url('assets/images/banner2.jpg');"></div>
+        <div class="hero-slide" style="background-image: url('assets/images/banner3.jpg');"></div>
+        <div class="hero-slide" style="background-image: url('assets/images/banner4.jpg');"></div>
+      </div>
+      <div class="carousel-dots">
+        <span class="dot d1"></span>
+        <span class="dot d2"></span>
+        <span class="dot d3"></span>
+        <span class="dot d4"></span>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <button class="tab-btn active">
+        <span class="icon">▦</span> All Games
+      </button>
+      <button class="tab-btn">
+        <span class="icon">品</span> Categories
+      </button>
+      <button class="tab-btn">
+        <span class="icon">🏆</span> Contest
+      </button>
+    </div>
+
+    <!-- Quick Action / Category Grid (Matches Screenshot Dimensions) -->
+    <div class="quick-grid">
+      <!-- Left Tall Box -->
+      <div class="quick-card deposit" style="background-image: url('assets/images/deposit.jpg');"></div>
+
+      <!-- Middle Top Row (2 boxes) -->
+      <div class="quick-card rewards" style="background-image: url('assets/images/rewards.jpg');"></div>
+      <div class="quick-card wheel" style="background-image: url('assets/images/wheel.jpg');"></div>
+
+      <!-- Middle Bottom Row (3 boxes) -->
+      <div class="quick-card casino" style="background-image: url('assets/images/casino.jpg');"></div>
+      <div class="quick-card mines" style="background-image: url('assets/images/mines.jpg');"></div>
+      <div class="quick-card crush" style="background-image: url('assets/images/crush.jpg');"></div>
+
+      <!-- Right Tall Box -->
+      <div class="quick-card daily-claim" style="background-image: url('assets/images/daily-claim.jpg');"></div>
+    </div>
+
+    <!-- Slots Section -->
+    <section class="game-section">
+      <div class="section-header">
+        <h2><span class="indicator">|</span> Slots</h2>
+        <a href="#" class="view-all">View All</a>
+      </div>
+      
+      <div class="game-grid">
+        <div class="game-card" style="background-image: url('assets/images/slot1.jpg');"></div>
+        <div class="game-card" style="background-image: url('assets/images/slot2.jpg');"></div>
+        <div class="game-card" style="background-image: url('assets/images/slot3.jpg');"></div>
+        <div class="game-card" style="background-image: url('assets/images/slot4.jpg');"></div>
+        <div class="game-card" style="background-image: url('assets/images/slot5.jpg');"></div>
+        <div class="game-card" style="background-image: url('assets/images/slot6.jpg');"></div>
+        <div class="game-card" style="background-image: url('assets/images/slot7.jpg');"></div>
+        <div class="game-card" style="background-image: url('assets/images/slot8.jpg');"></div>
+        <div class="game-card" style="background-image: url('assets/images/slot9.jpg');"></div>
+      </div>
+    </section>
+
+    <!-- Horizontal Swipeable Promo Banner Container (No Dots/Indicators) -->
+    <div class="promo-swipe-container">
+      <div class="promo-track">
+        <div class="promo-card" style="background-image: url('assets/images/promo-free-cash.jpg');"></div>
+        <div class="promo-card" style="background-image: url('assets/images/promo-cra.jpg');"></div>
+        <div class="promo-card" style="background-image: url('assets/images/promo-extra.jpg');"></div>
+      </div>
+    </div>
+
+    <!-- Bottom Games Grid -->
+    <section class="game-section">
+      <div class="game-grid">
+        <div class="game-box" style="background-image: url('assets/images/game10.jpg');"></div>
+        <div class="game-card" style="background-image: url('assets/images/game11.jpg');"></div>
+        <div class="game-card" style="background-image: url('assets/images/game12.jpg');"></div>
+        <div class="game-card" style="background-image: url('assets/images/game13.jpg');"></div>
+        <div class="game-card" style="background-image: url('assets/images/game14.jpg');"></div>
+        <div class="game-card" style="background-image: url('assets/images/game15.jpg');"></div>
+      </div>
+    </section>
+
+  </div>
+
+<script>
+(async()=>{const api=window.parent?.NAVGTA||window.NAVGTA;const grid=document.getElementById('liveGameGrid'),status=document.getElementById('liveGameStatus'),search=document.getElementById('gameSearch');let items=[];
+function render(){const q=(search.value||'').trim().toLowerCase();const filtered=items.filter(g=>(g.name||'').toLowerCase().includes(q)||(g.category||'').toLowerCase().includes(q)||(g.provider||'').toLowerCase().includes(q));grid.innerHTML='';if(!filtered.length){status.textContent=items.length?'No matching games.':'No active games are synced to the backend yet.';return;}status.textContent='';filtered.forEach(g=>{const b=document.createElement('button');b.className='game-card';b.style.cssText='min-height:100px;background-color:#202b37;color:white;border:1px solid #344155;border-radius:12px;padding:8px;cursor:pointer;background-size:cover;background-position:center';if(g.thumbnail)b.style.backgroundImage='linear-gradient(#0005,#0008),url("'+String(g.thumbnail).replace(/"/g,'%22')+'")';b.textContent=g.name||'Game';b.title=(g.provider||'')+' · '+(g.category||'');b.onclick=async()=>{if(!api.isAuthenticated()){alert('Sign in to launch games.');return;}b.disabled=true;try{await api.launchAndOpen(g.id)}catch(e){alert(e.message)}finally{b.disabled=false}};grid.appendChild(b)});}
+search?.addEventListener('input',render);try{const r=await api.games({limit:100,offset:0});items=r.items||[];render()}catch(e){status.textContent=e.message+' Check API configuration.'}
+})();
+</script>
+</body>
+</html>
