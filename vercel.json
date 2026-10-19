@@ -4,11 +4,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://REPLACE-WITH-YOUR-RENDER-SERVICE.onrender.com/api/:path*"
+      "destination": "https://fr-ace.onrender.com/api/:path*"
     },
     {
       "source": "/health",
-      "destination": "https://REPLACE-WITH-YOUR-RENDER-SERVICE.onrender.com/health"
+      "destination": "https://fr-ace.onrender.com/health"
     }
   ]
 }
